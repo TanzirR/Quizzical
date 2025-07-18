@@ -41,8 +41,8 @@ A responsive React quiz application that tests your knowledge on a wide range of
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/TanzirR/quizzical.git
-   cd quizzical
+   git clone https://github.com/TanzirR/Quizzical.git
+   cd Quizzical
    ```
 
 2. **Install dependencies**
@@ -63,7 +63,7 @@ A responsive React quiz application that tests your knowledge on a wide range of
 ## Project Structure
 
 ```
-quizzical/
+Quizzical/
 ├── public/
 │   └── vite.svg
 ├── src/
