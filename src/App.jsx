@@ -26,6 +26,15 @@ function App() {
   function renderPlayAgainButton() {
     setPlayAgainButton(true);
     setAnswersChecked(true);
+
+    // Calculate score by comparing selectedAnswers with correctAnswers
+    let calculatedScore = 0;
+    selectedAnswers.forEach((selectedAnswer, index) => {
+      if (selectedAnswer === correctAnswers[index]) {
+        calculatedScore++;
+      }
+    });
+    setScore(calculatedScore);
   }
   // Fetch questions (initial or replay)
   const fetchQuestions = () => {
@@ -92,6 +101,9 @@ function App() {
               question={he.decode(question.question)}
               questionIndex={index}
               onAnswerSelect={handleSelectedAnswers}
+              showResults={answersChecked}
+              selectedAnswer={selectedAnswers[index]}
+              correctAnswer={he.decode(question.correct_answer)}
             />
           );
         })
