@@ -14,47 +14,57 @@ function App() {
   const [answersChecked, setAnswersChecked] = useState(false);
   //State for loading page while fetching questions
   const [loading, setLoading] = useState(false);
+  //State for error handling
+  const [error, setError] = useState(false);
+  //State for score tracking
+  const [score, setScore] = useState(0);
+
+  //State for storing questions and options
+  const [questions, setQuestions] = useState([]);
 
   //When check answer button is clicked
   function renderPlayAgainButton() {
     setPlayAgainButton(true);
     setAnswersChecked(true);
   }
-  //Re-render the app when play again button is clicked
-  function newGame() {
-    // Wait 3 seconds before fetching new questions and resetting
-    setLoading(true);
-    setTimeout(() => {
-      // Fetch new questions first
-      fetch("https://opentdb.com/api.php?amount=5")
-        .then((res) => res.json())
-        .then((data) => {
-          // Only reset states after new questions are successfully fetched
-          setQuestions(data.results);
-          setPlayAgainButton(false);
-          setAnswersChecked(false);
-          setSelectedAnswers([]);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching new questions:", error);
-          // Even on error, reset to allow retry
-          setPlayAgainButton(false);
-          setAnswersChecked(false);
-          setSelectedAnswers([]);
-          setLoading(false); // Hide loading even on error
-        });
-    }, 3000); // 3 second delay
-  }
+  // Fetch questions (initial or replay)
+  const fetchQuestions = () => {
+    let showLoadingTimer = setTimeout(() => {
+      setLoading(true);
+    }, 1000);
 
-  //State for storing questions and options
-  const [questions, setQuestions] = useState([]);
-  //useEffect Hook for fetching questions from opentdb API
+    setError(false);
+
+    fetch("https://opentdb.com/api.php?amount=5&type=multiple")
+      .then((res) => {
+        if (!res.ok) throw new Error("Fetch failed");
+        return res.json();
+      })
+      .then((data) => {
+        clearTimeout(showLoadingTimer);
+        setLoading(false);
+        setQuestions(data.results);
+        setPlayAgainButton(false);
+        setAnswersChecked(false);
+        setSelectedAnswers([]);
+      })
+      .catch((error) => {
+        clearTimeout(showLoadingTimer);
+        setLoading(false);
+        setError(true);
+        console.error("Error fetching questions:", error);
+      });
+  };
+
+  // Initial fetch on mount
   useEffect(() => {
-    fetch("https://opentdb.com/api.php?amount=5")
-      .then((res) => res.json())
-      .then((data) => setQuestions(data.results));
+    fetchQuestions();
   }, []);
+
+  // New game function
+  const newGame = () => {
+    fetchQuestions();
+  };
 
   //Array for storing correct answers
   const correctAnswers = [];
@@ -76,7 +86,7 @@ function App() {
           correctAnswers.push(he.decode(question.correct_answer));
           return (
             <Quiz
-              key={index}
+              key={`${question.question}-${index}`}
               correct_answer={question.correct_answer}
               incorrect_answers={question.incorrect_answers}
               question={he.decode(question.question)}
@@ -93,11 +103,20 @@ function App() {
         <div className="loading-section">
           <h3>Loading...</h3>
         </div>
+      ) : error ? (
+        <div className="error-section">
+          <h3>⚠️ Failed to load questions</h3>
+          <p>Please check your connection or try again later.</p>
+          <button onClick={newGame}>Retry</button>
+        </div>
       ) : introView ? (
         <div className="intro-section">
           <h1 className="title">Quizzical</h1>
           <p>Check your knowledge on a wide range of topics</p>
-          <button className="start-quiz-btn" onClick={renderQuizPage}>
+          <button
+            className="start-quiz-btn"
+            onClick={() => setIntroView(false)}
+          >
             Start quiz
           </button>
         </div>
@@ -111,16 +130,18 @@ function App() {
               </button>
             </div>
           )}
-          {playAgainButton ? (
+          {playAgainButton && (
             <div className="result">
-              <h3>You have scored 5/5 correct answers</h3>
+              <h3>
+                You scored {score}/{questions.length} correct answers
+              </h3>
               <div className="btn-section">
                 <button className="play-again-btn" onClick={newGame}>
                   Play Again
                 </button>
               </div>
             </div>
-          ) : null}
+          )}
         </>
       )}
     </>
