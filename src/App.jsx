@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import he from 'he'
+import { useState, useEffect, useId } from "react";
+import he from "he";
 import "./App.css";
 import Quiz from "./Quiz.jsx";
 
@@ -9,17 +9,44 @@ function App() {
   const renderQuizPage = () => setIntroView(false);
 
   //State for storing questions and options
-  const [questions, setQuestions] = useState([])
-  useEffect(()=>{
+  const [questions, setQuestions] = useState([]);
+  //useEffect Hook for fetching questions from opentdb API
+  useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=5")
-            .then(res => res.json())
-            .then(data => setQuestions(data.results))
-  },[])
-  
-  const quiz = questions.map((question)=>{
-    return <Quiz key = {question.correct_answer} correct_answer = {question.correct_answer} incorrect_answers = {question.incorrect_answers} question = {he.decode(question.question)}/>
-  })
-  
+      .then((res) => res.json())
+      .then((data) => setQuestions(data.results));
+  }, []);
+  //Array for storing correct answers
+  const correctAnswers = [];
+
+  //State for storing clicked answers
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
+  //Function to handle selected answers
+  function handleSelectedAnswers(questionIndex, clickedOption) {
+    setSelectedAnswers((prev) => {
+      const newArray = [...prev]; // Create a copy of the previous array
+      newArray[questionIndex] = clickedOption; // Update the specific question's answer
+      return newArray;
+    });
+  }
+
+  const quiz =
+    questions && questions.length > 0
+      ? questions.map((question, index) => {
+          correctAnswers.push(he.decode(question.correct_answer));
+          return (
+            <Quiz
+              key={index}
+              correct_answer={question.correct_answer}
+              incorrect_answers={question.incorrect_answers}
+              question={he.decode(question.question)}
+              questionIndex={index}
+              onAnswerSelect={handleSelectedAnswers}
+            />
+          );
+        })
+      : [];
+  console.log(selectedAnswers);
   return (
     <>
       {introView ? (
