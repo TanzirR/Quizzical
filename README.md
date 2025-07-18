@@ -132,11 +132,7 @@ npm run lint         # Run ESLint
 ## Future Enhancements
 
 - [ ] Category selection
-- [ ] Difficulty level selection
 - [ ] Question count customization
-- [ ] Timer functionality
-- [ ] Score history/leaderboard
-- [ ] Social sharing
 - [ ] Dark mode toggle
 
 ## Acknowledgments
