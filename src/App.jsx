@@ -8,6 +8,45 @@ function App() {
   const [introView, setIntroView] = useState(true);
   const renderQuizPage = () => setIntroView(false);
 
+  //State for rendering play again button
+  const [playAgainButton, setPlayAgainButton] = useState(false);
+  //State to track if check answer button is clicked
+  const [answersChecked, setAnswersChecked] = useState(false);
+  //State for loading page while fetching questions
+  const [loading, setLoading] = useState(false);
+
+  //When check answer button is clicked
+  function renderPlayAgainButton() {
+    setPlayAgainButton(true);
+    setAnswersChecked(true);
+  }
+  //Re-render the app when play again button is clicked
+  function newGame() {
+    // Wait 3 seconds before fetching new questions and resetting
+    setLoading(true);
+    setTimeout(() => {
+      // Fetch new questions first
+      fetch("https://opentdb.com/api.php?amount=5")
+        .then((res) => res.json())
+        .then((data) => {
+          // Only reset states after new questions are successfully fetched
+          setQuestions(data.results);
+          setPlayAgainButton(false);
+          setAnswersChecked(false);
+          setSelectedAnswers([]);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching new questions:", error);
+          // Even on error, reset to allow retry
+          setPlayAgainButton(false);
+          setAnswersChecked(false);
+          setSelectedAnswers([]);
+          setLoading(false); // Hide loading even on error
+        });
+    }, 3000); // 3 second delay
+  }
+
   //State for storing questions and options
   const [questions, setQuestions] = useState([]);
   //useEffect Hook for fetching questions from opentdb API
@@ -16,6 +55,7 @@ function App() {
       .then((res) => res.json())
       .then((data) => setQuestions(data.results));
   }, []);
+
   //Array for storing correct answers
   const correctAnswers = [];
 
@@ -49,7 +89,11 @@ function App() {
   console.log(selectedAnswers);
   return (
     <>
-      {introView ? (
+      {loading ? (
+        <div className="loading-section">
+          <h3>Loading...</h3>
+        </div>
+      ) : introView ? (
         <div className="intro-section">
           <h1 className="title">Quizzical</h1>
           <p>Check your knowledge on a wide range of topics</p>
@@ -60,9 +104,23 @@ function App() {
       ) : (
         <>
           {quiz}
-          <div className="check-sec">
-            <button className="check-btn">Check answers</button>
-          </div>
+          {!answersChecked && (
+            <div className="check-sec">
+              <button className="check-btn" onClick={renderPlayAgainButton}>
+                Check answers
+              </button>
+            </div>
+          )}
+          {playAgainButton ? (
+            <div className="result">
+              <h3>You have scored 5/5 correct answers</h3>
+              <div className="btn-section">
+                <button className="play-again-btn" onClick={newGame}>
+                  Play Again
+                </button>
+              </div>
+            </div>
+          ) : null}
         </>
       )}
     </>
