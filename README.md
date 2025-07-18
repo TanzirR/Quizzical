@@ -132,5 +132,7 @@ npm run lint         # Run ESLint
 
 ## Contact
 
+- **GitHub:** [TanzirR](https://github.com/TanzirR)
+- **Email:** [tanzir.razzaque@northsouth.edu](mailto:tanzir.razzaque@northsouth.edu)
 
 
