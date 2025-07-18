@@ -52,22 +52,22 @@ body {
   border: #4d5b9e solid 1px;
   background-color: transparent;
   border-radius: 10px;
-  min-width: 100px;           /* minimum width */
-  max-width: 200px;           /* prevent buttons from being too wide */
-  height: auto;               /* allow height to adjust */
-  min-height: 30px;           /* minimum height */
+  min-width: 100px; /* minimum width */
+  max-width: 200px; /* prevent buttons from being too wide */
+  height: auto; /* allow height to adjust */
+  min-height: 30px; /* minimum height */
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  padding: 12px 15px;         /* increased padding */
-  white-space: normal;        /* allow text to wrap */
-  word-wrap: break-word;      /* break long words if needed */
-  box-sizing: border-box;     /* include padding in total size */
-  overflow-wrap: break-word;  /* safe word breaking */
-  text-align: center;         /* center the text */
-  line-height: 1.3;           /* better line spacing for wrapped text */
-  hyphens: auto;              /* add hyphens for broken words */
+  padding: 12px 15px; /* increased padding */
+  white-space: normal; /* allow text to wrap */
+  word-wrap: break-word; /* break long words if needed */
+  box-sizing: border-box; /* include padding in total size */
+  overflow-wrap: break-word; /* safe word breaking */
+  text-align: center; /* center the text */
+  line-height: 1.3; /* better line spacing for wrapped text */
+  hyphens: auto; /* add hyphens for broken words */
 }
 
 .options-btn-sec {
@@ -82,7 +82,8 @@ body {
   margin: 0 auto;
 }
 
-.check-btn {
+.check-btn,
+.play-again-btn {
   margin-top: 25px;
   background-color: #4d5b9e;
   border: none;
@@ -100,6 +101,17 @@ body {
 .check-sec {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.btn-section {
+  padding-bottom: 20px;
 }
 
 /* Responsive Design - Media Queries */
@@ -109,37 +121,37 @@ body {
   .title {
     font-size: 2.5rem;
   }
-  
+
   .intro-section p {
     font-size: 1.1rem;
     max-width: 85%;
   }
-  
+
   .start-quiz-btn {
     width: 180px;
     height: 48px;
     font-size: 15px;
   }
-  
+
   .question {
     font-size: 1.4rem;
     padding: 15px;
   }
-  
+
   .options-btn-sec {
     gap: 15px;
     flex-wrap: wrap;
     max-width: 95%;
   }
-  
+
   .options-btn-sec button {
     min-width: 140px;
     max-width: 220px;
     min-height: 40px;
     padding: 10px 12px;
     font-size: 14px;
-    word-break: break-word;    /* force break long words */
-    overflow-wrap: anywhere;   /* break anywhere if needed */
+    word-break: break-word; /* force break long words */
+    overflow-wrap: anywhere; /* break anywhere if needed */
   }
 }
 
@@ -150,18 +162,18 @@ body {
     min-height: 100vh;
     padding: 10px;
   }
-  
+
   .question {
     font-size: 1.3rem;
     padding: 10px;
     max-width: 95%;
   }
-  
+
   .options-btn-sec {
     gap: 10px;
     max-width: 90%;
   }
-  
+
   .options-btn-sec button {
     min-width: 120px;
     max-width: 180px;
@@ -170,7 +182,7 @@ body {
     font-size: 13px;
     line-height: 1.2;
   }
-  
+
   .check-btn {
     margin-top: 15px;
   }
@@ -181,30 +193,30 @@ body {
   body {
     padding: 10px;
   }
-  
+
   .intro-section {
     padding: 20px;
     height: auto;
     min-height: 100vh;
   }
-  
+
   .title {
     font-size: 2rem;
     text-align: center;
   }
-  
+
   .intro-section p {
     font-size: 1rem;
     max-width: 90%;
     text-align: center;
   }
-  
+
   .start-quiz-btn {
     width: 160px;
     height: 45px;
     font-size: 14px;
   }
-  
+
   .question {
     font-size: 1.2rem;
     text-wrap: wrap;
@@ -212,7 +224,7 @@ body {
     margin: 0 auto;
     padding: 15px 10px;
   }
-  
+
   .options-btn-sec {
     flex-direction: column;
     gap: 12px;
@@ -220,7 +232,7 @@ body {
     max-width: 400px;
     margin: 0 auto;
   }
-  
+
   .options-btn-sec button {
     width: 100%;
     max-width: none;
@@ -228,11 +240,24 @@ body {
     padding: 12px 15px;
     font-size: 14px;
   }
-  
-  .check-btn {
+
+  .check-btn,
+  .play-again-btn {
     width: 140px;
     height: 38px;
     font-size: 14px;
+  }
+
+  .result {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+    padding: 15px;
+  }
+
+  .result p {
+    font-size: 16px;
+    margin: 0;
   }
 }
 
@@ -241,39 +266,53 @@ body {
   .title {
     font-size: 1.8rem;
   }
-  
+
   .intro-section p {
     font-size: 0.9rem;
     max-width: 95%;
   }
-  
+
   .start-quiz-btn {
     width: 150px;
     height: 42px;
     font-size: 13px;
   }
-  
+
   .question {
     font-size: 1.1rem;
     padding: 12px 8px;
   }
-  
+
   .options-btn-sec {
     gap: 10px;
     padding-bottom: 15px;
   }
-  
+
   .options-btn-sec button {
     min-height: 40px;
     padding: 10px 12px;
     font-size: 13px;
   }
-  
-  .check-btn {
+
+  .check-btn,
+  .play-again-btn {
     width: 130px;
     height: 36px;
     font-size: 13px;
     margin-top: 20px;
+  }
+
+  .result {
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+    padding: 12px;
+  }
+
+  .result p {
+    font-size: 15px;
+    margin: 0;
+    line-height: 1.4;
   }
 }
 
@@ -282,35 +321,49 @@ body {
   .title {
     font-size: 1.5rem;
   }
-  
+
   .intro-section p {
     font-size: 0.85rem;
   }
-  
+
   .start-quiz-btn {
     width: 140px;
     height: 40px;
     font-size: 12px;
   }
-  
+
   .question {
     font-size: 1rem;
     padding: 10px 5px;
   }
-  
+
   .options-btn-sec {
     gap: 8px;
   }
-  
+
   .options-btn-sec button {
     min-height: 38px;
     padding: 8px 10px;
     font-size: 12px;
   }
-  
-  .check-btn {
+
+  .check-btn,
+  .play-again-btn {
     width: 120px;
     height: 34px;
     font-size: 12px;
+  }
+
+  .result {
+    flex-direction: column;
+    gap: 5px;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .result p {
+    font-size: 14px;
+    margin: 0;
+    line-height: 1.3;
   }
 }
