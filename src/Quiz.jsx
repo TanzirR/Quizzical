@@ -55,12 +55,40 @@ export default function Quiz(props) {
   }
 
   const options = clicked.map((option, index) => {
+    let backgroundColor = "transparent";
+    let opacity = 1;
+    let border = "#4d5b9e solid 1px";
+
+    if (props.showResults) {
+      // Show results with colors
+      if (option.choice === props.correctAnswer) {
+        backgroundColor = "#94D7A2"; // Correct answer - green
+        border = "none"; // Remove border for correct answer
+      } else if (option.choice === props.selectedAnswer) {
+        backgroundColor = "#F8BCBC"; // Wrong selected answer - red
+        opacity = 0.5; // Reduce opacity for wrong answers
+        border = "none"; // Remove border for selected wrong answer
+      } else {
+        // Unselected options - keep original border but reduce opacity
+        opacity = 0.5;
+        // border stays as "#4d5b9e solid 1px"
+      }
+    } else {
+      // Normal state - show selection
+      backgroundColor = option.clicked ? "#D6DBF5" : "transparent";
+    }
+
     return (
       <button
         key={index}
-        onClick={() => handleClick(option.choice)}
+        onClick={
+          !props.showResults ? () => handleClick(option.choice) : undefined
+        }
         style={{
-          backgroundColor: option.clicked ? "#D6DBF5" : "transparent",
+          backgroundColor: backgroundColor,
+          opacity: opacity,
+          border: border,
+          cursor: props.showResults ? "default" : "pointer",
         }}
       >
         {option.choice}
