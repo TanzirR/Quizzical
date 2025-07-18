@@ -14,6 +14,13 @@ A responsive React quiz application that tests your knowledge on a wide range of
 
 ## Demo
 
+[https://quizzical-tanzir.netlify.app/](https://quizzical-tanzir.netlify.app/)
+
+## Screenshots
+<img width="759" height="912" alt="1" src="https://github.com/user-attachments/assets/dfb3299d-c64c-4568-aaea-4dcad5c377a6" />
+<img width="773" height="912" alt="2" src="https://github.com/user-attachments/assets/82640c8e-785e-4ac3-bdd0-40ca08b1f530" />
+<img width="769" height="913" alt="3" src="https://github.com/user-attachments/assets/8b397a28-63e1-4a30-b01c-2936dd3605f5" />
+
 ### Main Features:
 
 - **Intro Screen**: Welcome page with quiz introduction
