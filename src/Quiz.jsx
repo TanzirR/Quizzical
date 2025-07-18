@@ -15,24 +15,25 @@
 // }
 
 import { useState } from "react";
-import he from 'he'
+import he from "he";
 export default function Quiz(props) {
-
-  const storeOptions = [props.correct_answer, ...props.incorrect_answers]
+  const storeOptions = [props.correct_answer, ...props.incorrect_answers];
 
   //Fisher-Yates Shuffle
   function shuffleArray(array) {
-  const newArray = [...array];
-  for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
   }
-  return newArray;
-}
-  
-  const optionsArray = shuffleArray(storeOptions.map((storeOption) => {
-    return {choice: he.decode(storeOption), clicked: false}
-  }))
+
+  const optionsArray = shuffleArray(
+    storeOptions.map((storeOption) => {
+      return { choice: he.decode(storeOption), clicked: false };
+    })
+  );
 
   //track which option is clicked
   const [clicked, setClicked] = useState(optionsArray);
@@ -46,6 +47,11 @@ export default function Quiz(props) {
             : { ...option, clicked: false } // Reset other options to false
       )
     );
+
+    // Call the parent's callback to store the selected answer
+    if (props.onAnswerSelect) {
+      props.onAnswerSelect(props.questionIndex, clickedOption);
+    }
   }
 
   const options = clicked.map((option, index) => {
@@ -63,9 +69,7 @@ export default function Quiz(props) {
   });
   return (
     <>
-      <h1 className="question">
-        {props.question}
-      </h1>
+      <h1 className="question">{props.question}</h1>
       <div className="options-btn-sec">{options}</div>
     </>
   );
