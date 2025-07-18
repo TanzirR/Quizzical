@@ -60,17 +60,6 @@ A responsive React quiz application that tests your knowledge on a wide range of
 4. **Open your browser**
    Navigate to `http://localhost:5173` to see the app
 
-## Usage
-
-1. **Start Quiz**: Click "Start quiz" on the intro page
-2. **Answer Questions**: Select one answer for each of the 5 questions
-3. **Check Answers**: Click "Check answers" to see your results
-4. **View Results**: See your score and color-coded feedback:
-   - 🟢 **Green**: Correct answers
-   - 🔴 **Red**: Your incorrect selections (50% opacity)
-   - ⚪ **Dimmed**: Unselected options (50% opacity)
-5. **Play Again**: Click "Play Again" to start a new quiz
-
 ## Project Structure
 
 ```
